@@ -1747,195 +1747,201 @@ export default function Bills() {
             </div>
           )}
 
-          <div className="flex-1 overflow-auto relative">
-            {loading ? (
-              <div className="p-8 text-center text-slate-500">
-                Loading bills...
-              </div>
-            ) : filteredBills.length === 0 ? (
-              <div className="flex flex-col items-center justify-center h-full text-center p-8">
-                <div className="h-16 w-16 rounded-full bg-slate-100 flex items-center justify-center mb-4">
-                  <FileText className="h-8 w-8 text-slate-400" />
-                </div>
-                <h3 className="text-lg font-semibold mb-2">No bills found</h3>
-                <p className="text-slate-500 mb-4">
-                  {searchTerm
-                    ? "Try adjusting your search criteria"
-                    : "Create your first bill to get started"}
-                </p>
-                {!searchTerm && (
-                  <Button
-                    onClick={() => setLocation("/bills/new")}
-                    className="gap-2"
-                    data-testid="button-create-first-bill"
-                  >
-                    <Plus className="h-4 w-4" /> Create New Bill
-                  </Button>
-                )}
-              </div>
-            ) : selectedBill ? (
-              <div className="flex flex-col h-full bg-white">
-                {paginatedItems.map((bill: Bill) => {
-                  const paymentStatus = getPaymentStatus(bill);
-                  const isOverdue = bill.status === "OVERDUE" || (bill.balanceDue > 0 && new Date(bill.dueDate) < new Date());
-                  const daysOverdue = isOverdue ? Math.ceil((new Date().getTime() - new Date(bill.dueDate).getTime()) / (1000 * 3600 * 24)) : 0;
+          <div className="flex-1 flex flex-col min-h-0 overflow-hidden relative">
+            <div className="flex-1 overflow-auto relative">
 
-                  return (
-                    <div
-                      key={bill.id}
-                      onClick={() => handleBillClick(bill)}
-                      className={`group flex items-start gap-3 p-4 border-b border-slate-100 cursor-pointer transition-colors hover:bg-slate-50 relative ${selectedBill?.id === bill.id ? "bg-blue-50/50" : ""
-                        }`}
-                      data-testid={`card-bill-${bill.id}`}
+              {loading ? (
+                <div className="p-8 text-center text-slate-500">
+                  Loading bills...
+                </div>
+              ) : filteredBills.length === 0 ? (
+                <div className="flex flex-col items-center justify-center h-full text-center p-8">
+                  <div className="h-16 w-16 rounded-full bg-slate-100 flex items-center justify-center mb-4">
+                    <FileText className="h-8 w-8 text-slate-400" />
+                  </div>
+                  <h3 className="text-lg font-semibold mb-2">No bills found</h3>
+                  <p className="text-slate-500 mb-4">
+                    {searchTerm
+                      ? "Try adjusting your search criteria"
+                      : "Create your first bill to get started"}
+                  </p>
+                  {!searchTerm && (
+                    <Button
+                      onClick={() => setLocation("/bills/new")}
+                      className="gap-2"
+                      data-testid="button-create-first-bill"
                     >
-                      <div className="mt-1" onClick={(e) => e.stopPropagation()}>
-                        <Checkbox
-                          checked={selectedBills.includes(bill.id)}
-                          onCheckedChange={() => {
-                            if (selectedBills.includes(bill.id)) {
-                              setSelectedBills(selectedBills.filter((i) => i !== bill.id));
-                            } else {
-                              setSelectedBills([...selectedBills, bill.id]);
-                            }
-                          }}
-                        />
-                      </div>
-                      <div className="flex-1 min-w-0 space-y-1">
-                        <div className="flex items-start justify-between gap-2">
-                          <h3 className="font-semibold text-[14px] text-slate-900 truncate uppercase">
-                            {bill.vendorName}
-                          </h3>
-                          <span className="font-semibold text-[14px] text-slate-900 whitespace-nowrap">
-                            {formatCurrency(bill.total)}
-                          </span>
+                      <Plus className="h-4 w-4" /> Create New Bill
+                    </Button>
+                  )}
+                </div>
+              ) : selectedBill ? (
+                <div className="flex flex-col h-full bg-white">
+                  {paginatedItems.map((bill: Bill) => {
+                    const paymentStatus = getPaymentStatus(bill);
+                    const isOverdue = bill.status === "OVERDUE" || (bill.balanceDue > 0 && new Date(bill.dueDate) < new Date());
+                    const daysOverdue = isOverdue ? Math.ceil((new Date().getTime() - new Date(bill.dueDate).getTime()) / (1000 * 3600 * 24)) : 0;
+
+                    return (
+                      <div
+                        key={bill.id}
+                        onClick={() => handleBillClick(bill)}
+                        className={`group flex items-start gap-3 p-4 border-b border-slate-100 cursor-pointer transition-colors hover:bg-slate-50 relative ${selectedBill?.id === bill.id ? "bg-blue-50/50" : ""
+                          }`}
+                        data-testid={`card-bill-${bill.id}`}
+                      >
+                        <div className="mt-1" onClick={(e) => e.stopPropagation()}>
+                          <Checkbox
+                            checked={selectedBills.includes(bill.id)}
+                            onCheckedChange={() => {
+                              if (selectedBills.includes(bill.id)) {
+                                setSelectedBills(selectedBills.filter((i) => i !== bill.id));
+                              } else {
+                                setSelectedBills([...selectedBills, bill.id]);
+                              }
+                            }}
+                          />
                         </div>
-                        <div className="flex items-center gap-1.5 text-[13px] text-slate-500">
-                          <span>{bill.billNumber}</span>
-                          <span className="text-slate-300">•</span>
-                          <span>{formatDate(bill.billDate)}</span>
-                        </div>
-                        <div className="pt-1">
-                          {paymentStatus === "PAID" ? (
-                            <span className="text-[11px] font-bold text-green-600 tracking-wider">PAID</span>
-                          ) : isOverdue ? (
-                            <span className="text-[11px] font-bold text-orange-500 tracking-wider">
-                              OVERDUE BY {daysOverdue} DAYS
+                        <div className="flex-1 min-w-0 space-y-1">
+                          <div className="flex items-start justify-between gap-2">
+                            <h3 className="font-semibold text-[14px] text-slate-900 truncate uppercase">
+                              {bill.vendorName}
+                            </h3>
+                            <span className="font-semibold text-[14px] text-slate-900 whitespace-nowrap">
+                              {formatCurrency(bill.total)}
                             </span>
-                          ) : (
-                            <span className="text-[11px] font-bold text-blue-600 tracking-wider">OPEN</span>
-                          )}
+                          </div>
+                          <div className="flex items-center gap-1.5 text-[13px] text-slate-500">
+                            <span>{bill.billNumber}</span>
+                            <span className="text-slate-300">•</span>
+                            <span>{formatDate(bill.billDate)}</span>
+                          </div>
+                          <div className="pt-1">
+                            {paymentStatus === "PAID" ? (
+                              <span className="text-[11px] font-bold text-green-600 tracking-wider">PAID</span>
+                            ) : isOverdue ? (
+                              <span className="text-[11px] font-bold text-orange-500 tracking-wider">
+                                OVERDUE BY {daysOverdue} DAYS
+                              </span>
+                            ) : (
+                              <span className="text-[11px] font-bold text-blue-600 tracking-wider">OPEN</span>
+                            )}
+                          </div>
                         </div>
+                        {selectedBill?.id === bill.id && (
+                          <div className="absolute left-0 top-0 bottom-0 w-1 bg-blue-600" />
+                        )}
                       </div>
-                      {selectedBill?.id === bill.id && (
-                        <div className="absolute left-0 top-0 bottom-0 w-1 bg-blue-600" />
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
-            ) : (
-              <Table>
-                <TableHeader>
-                  <TableRow className="bg-slate-50">
-                    <TableHead className="w-10"></TableHead>
-                    <TableHead className="text-xs">DATE</TableHead>
-                    <TableHead className="text-xs">BILL#</TableHead>
-                    <TableHead className="text-xs">REFERENCE NUMBER</TableHead>
-                    <TableHead className="text-xs">VENDOR NAME</TableHead>
-                    <TableHead className="text-xs">STATUS</TableHead>
-                    <TableHead className="text-xs">DUE DATE</TableHead>
-                    <TableHead className="text-xs text-right">AMOUNT</TableHead>
-                    <TableHead className="text-xs text-right">
-                      BALANCE DUE
-                    </TableHead>
-                    <TableHead className="w-10"></TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {paginatedItems.map((bill: any) => (
-                    <TableRow
-                      key={bill.id}
-                      onClick={() => handleBillClick(bill)}
-                      className={`cursor-pointer hover-elevate ${selectedBill?.id === bill.id ? "bg-blue-50" : ""}`}
-                      data-testid={`row-bill-${bill.id}`}
-                    >
-                      <TableCell onClick={(e) => e.stopPropagation()}>
-                        <Checkbox
-                          checked={selectedBills.includes(bill.id)}
-                          onClick={(e) => toggleSelectBill(bill.id, e)}
-                        />
-                      </TableCell>
-                      <TableCell className="text-sm">
-                        {formatDate(bill.billDate)}
-                      </TableCell>
-                      <TableCell className="text-sm text-blue-600 font-medium">
-                        {bill.billNumber}
-                      </TableCell>
-                      <TableCell className="text-sm">
-                        {bill.orderNumber || "-"}
-                      </TableCell>
-                      <TableCell className="text-sm">{bill.vendorName}</TableCell>
-                      <TableCell>{getStatusBadge(bill.status)}</TableCell>
-                      <TableCell className="text-sm">
-                        {formatDate(bill.dueDate)}
-                      </TableCell>
-                      <TableCell className="text-sm text-right">
-                        {formatCurrency(bill.total)}
-                      </TableCell>
-                      <TableCell className="text-sm text-right">
-                        {formatCurrency(bill.balanceDue)}
-                      </TableCell>
-                      <TableCell>
-                        <DropdownMenu>
-                          <DropdownMenuTrigger
-                            asChild
-                            onClick={(e) => e.stopPropagation()}
-                          >
-                            <Button
-                              variant="ghost"
-                              size="icon"
-                              className="h-8 w-8"
-                            >
-                              <MoreHorizontal className="h-4 w-4" />
-                            </Button>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end">
-                            <DropdownMenuItem
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setLocation(`/bills/${bill.id}/edit`);
-                              }}
-                            >
-                              <Pencil className="mr-2 h-4 w-4" /> Edit
-                            </DropdownMenuItem>
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem
-                              className="text-red-600"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                handleDelete(bill.id);
-                              }}
-                            >
-                              <Trash2 className="mr-2 h-4 w-4" /> Delete
-                            </DropdownMenuItem>
-                          </DropdownMenuContent>
-                        </DropdownMenu>
-                      </TableCell>
+                    );
+                  })}
+                </div>
+              ) : (
+                <Table>
+                  <TableHeader>
+                    <TableRow className="bg-slate-50">
+                      <TableHead className="w-10"></TableHead>
+                      <TableHead className="text-xs">DATE</TableHead>
+                      <TableHead className="text-xs">BILL#</TableHead>
+                      <TableHead className="text-xs">REFERENCE NUMBER</TableHead>
+                      <TableHead className="text-xs">VENDOR NAME</TableHead>
+                      <TableHead className="text-xs">STATUS</TableHead>
+                      <TableHead className="text-xs">DUE DATE</TableHead>
+                      <TableHead className="text-xs text-right">AMOUNT</TableHead>
+                      <TableHead className="text-xs text-right">
+                        BALANCE DUE
+                      </TableHead>
+                      <TableHead className="w-10"></TableHead>
                     </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            )}
+                  </TableHeader>
+                  <TableBody>
+                    {paginatedItems.map((bill: any) => (
+                      <TableRow
+                        key={bill.id}
+                        onClick={() => handleBillClick(bill)}
+                        className={`cursor-pointer hover-elevate ${selectedBill?.id === bill.id ? "bg-blue-50" : ""}`}
+                        data-testid={`row-bill-${bill.id}`}
+                      >
+                        <TableCell onClick={(e) => e.stopPropagation()}>
+                          <Checkbox
+                            checked={selectedBills.includes(bill.id)}
+                            onClick={(e) => toggleSelectBill(bill.id, e)}
+                          />
+                        </TableCell>
+                        <TableCell className="text-sm">
+                          {formatDate(bill.billDate)}
+                        </TableCell>
+                        <TableCell className="text-sm text-blue-600 font-medium">
+                          {bill.billNumber}
+                        </TableCell>
+                        <TableCell className="text-sm">
+                          {bill.orderNumber || "-"}
+                        </TableCell>
+                        <TableCell className="text-sm">{bill.vendorName}</TableCell>
+                        <TableCell>{getStatusBadge(bill.status)}</TableCell>
+                        <TableCell className="text-sm">
+                          {formatDate(bill.dueDate)}
+                        </TableCell>
+                        <TableCell className="text-sm text-right">
+                          {formatCurrency(bill.total)}
+                        </TableCell>
+                        <TableCell className="text-sm text-right">
+                          {formatCurrency(bill.balanceDue)}
+                        </TableCell>
+                        <TableCell>
+                          <DropdownMenu>
+                            <DropdownMenuTrigger
+                              asChild
+                              onClick={(e) => e.stopPropagation()}
+                            >
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                className="h-8 w-8"
+                              >
+                                <MoreHorizontal className="h-4 w-4" />
+                              </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end">
+                              <DropdownMenuItem
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setLocation(`/bills/${bill.id}/edit`);
+                                }}
+                              >
+                                <Pencil className="mr-2 h-4 w-4" /> Edit
+                              </DropdownMenuItem>
+                              <DropdownMenuSeparator />
+                              <DropdownMenuItem
+                                className="text-red-600"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleDelete(bill.id);
+                                }}
+                              >
+                                <Trash2 className="mr-2 h-4 w-4" /> Delete
+                              </DropdownMenuItem>
+                            </DropdownMenuContent>
+                          </DropdownMenu>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              )}
+            </div>
             {filteredBills.length > 0 && (
-              <TablePagination
-                currentPage={currentPage}
-                totalPages={totalPages}
-                totalItems={totalItems}
-                itemsPerPage={itemsPerPage}
-                onPageChange={goToPage}
-              />
+              <div className="flex-none border-t border-slate-200 bg-white">
+                <TablePagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  totalItems={totalItems}
+                  itemsPerPage={itemsPerPage}
+                  onPageChange={goToPage}
+                />
+              </div>
             )}
           </div>
+
         </ResizablePanel>
 
         {selectedBill && (

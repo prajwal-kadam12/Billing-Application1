@@ -652,7 +652,7 @@ function SalesOrderDetailPanel({ order, branding, organization, onClose, onEdit,
         </Tabs>
       )}
 
-{/* 
+      {/* 
       <div className="border-t border-slate-200 dark:border-slate-700 p-4 flex items-center justify-between">
         <Button variant="ghost" size="icon" data-testid="button-prev-order">
           <ChevronLeft className="h-4 w-4" />
@@ -1021,137 +1021,144 @@ export default function SalesOrdersPage() {
               </div>
             )}
 
-            <div className="flex-1 overflow-auto border-t border-slate-200 dark:border-slate-700">
-              {loading ? (
-                <div className="p-8 text-center text-slate-500">Loading sales orders...</div>
-              ) : filteredOrders.length === 0 ? (
-                <div className="p-8 text-center text-slate-500">
-                  <Package className="h-12 w-12 mx-auto mb-4 text-slate-300" />
-                  <p className="font-medium">No sales orders found</p>
-                  <p className="text-sm text-slate-400 mt-1">Create your first sales order to get started</p>
-                  <Button
-                    onClick={() => setLocation("/sales-orders/create")}
-                    className="mt-4 bg-blue-600 hover:bg-blue-700"
-                  >
-                    <Plus className="h-4 w-4 mr-2" /> Create Sales Order
-                  </Button>
-                </div>
-              ) : selectedOrder ? (
-                <div className="divide-y divide-slate-100 dark:divide-slate-800">
-                  {filteredOrders.map((order) => (
-                    <div
-                      key={order.id}
-                      className={`p-4 hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer transition-colors ${selectedOrder?.id === order.id ? 'bg-blue-50 dark:bg-blue-900/20 border-l-2 border-l-blue-600' : ''
-                        }`}
-                      onClick={() => handleOrderClick(order)}
-                      data-testid={`card-order-${order.id}`}
+            <div className="flex-1 flex flex-col min-h-0 overflow-hidden border-t border-slate-200 dark:border-slate-700">
+              <div className="flex-1 overflow-auto">
+
+                {loading ? (
+                  <div className="p-8 text-center text-slate-500">Loading sales orders...</div>
+                ) : filteredOrders.length === 0 ? (
+                  <div className="p-8 text-center text-slate-500">
+                    <Package className="h-12 w-12 mx-auto mb-4 text-slate-300" />
+                    <p className="font-medium">No sales orders found</p>
+                    <p className="text-sm text-slate-400 mt-1">Create your first sales order to get started</p>
+                    <Button
+                      onClick={() => setLocation("/sales-orders/create")}
+                      className="mt-4 bg-blue-600 hover:bg-blue-700"
                     >
-                      <div className="flex items-start justify-between mb-1">
-                        <div className="flex items-center gap-2">
-                          <Checkbox
-                            checked={selectedOrders.includes(order.id)}
-                            onClick={(e) => toggleSelectOrder(order.id, e)}
-                          />
-                          <span className="font-medium text-slate-900 dark:text-white truncate">{order.customerName}</span>
-                        </div>
-                        <span className="font-semibold text-slate-900 dark:text-white">{formatCurrency(order.total)}</span>
-                      </div>
-                      <div className="ml-6 flex items-center gap-2 text-sm flex-wrap">
-                        <span className="text-slate-500">{order.salesOrderNumber}</span>
-                        <span className="text-slate-300">|</span>
-                        <span className="text-slate-500">{formatDate(order.date)}</span>
-                      </div>
-                      <div className="ml-6 mt-2 flex items-center gap-2 flex-wrap">
-                        <Badge variant="outline" className={getStatusBadgeStyles(order.orderStatus)}>
-                          {order.orderStatus}
-                        </Badge>
-                        <Badge variant="outline" className={getStatusBadgeStyles(order.invoiceStatus)}>
-                          {order.invoiceStatus}
-                        </Badge>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <>
-                  <table className="w-full">
-                    <thead className="bg-slate-50 dark:bg-slate-800 sticky top-0 z-10">
-                      <tr>
-                        <th className="w-12 px-4 py-3">
-                          <Checkbox />
-                        </th>
-                        <th className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase">Date</th>
-                        <th className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase">Sales Order#</th>
-                        <th className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase">Reference#</th>
-                        <th className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase">Customer Name</th>
-                        <th className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase">Status</th>
-                        <th className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase">Invoiced</th>
-                        <th className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase">Payment</th>
-                        <th className="px-4 py-3 text-right text-xs font-medium text-slate-500 uppercase">Amount</th>
-                        <th className="w-10 px-4 py-3"></th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-                      {paginatedItems.map((order) => (
-                        <tr
-                          key={order.id}
-                          className="hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer"
-                          onClick={() => handleOrderClick(order)}
-                          data-testid={`row-order-${order.id}`}
-                        >
-                          <td className="px-4 py-3">
+                      <Plus className="h-4 w-4 mr-2" /> Create Sales Order
+                    </Button>
+                  </div>
+                ) : selectedOrder ? (
+                  <div className="divide-y divide-slate-100 dark:divide-slate-800">
+                    {filteredOrders.map((order) => (
+                      <div
+                        key={order.id}
+                        className={`p-4 hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer transition-colors ${selectedOrder?.id === order.id ? 'bg-blue-50 dark:bg-blue-900/20 border-l-2 border-l-blue-600' : ''
+                          }`}
+                        onClick={() => handleOrderClick(order)}
+                        data-testid={`card-order-${order.id}`}
+                      >
+                        <div className="flex items-start justify-between mb-1">
+                          <div className="flex items-center gap-2">
                             <Checkbox
                               checked={selectedOrders.includes(order.id)}
                               onClick={(e) => toggleSelectOrder(order.id, e)}
                             />
-                          </td>
-                          <td className="px-4 py-3 text-sm text-slate-600 dark:text-slate-400">{formatDate(order.date)}</td>
-                          <td className="px-4 py-3">
-                            <span className="text-blue-600 font-medium">{order.salesOrderNumber}</span>
-                          </td>
-                          <td className="px-4 py-3 text-sm text-slate-600 dark:text-slate-400">{order.referenceNumber || '-'}</td>
-                          <td className="px-4 py-3 text-sm text-slate-900 dark:text-white font-medium">{order.customerName}</td>
-                          <td className="px-4 py-3">
-                            <Badge variant="outline" className={getStatusBadgeStyles(order.orderStatus)}>
-                              {order.orderStatus}
-                            </Badge>
-                          </td>
-                          <td className="px-4 py-3">
-                            <Badge variant="outline" className={getStatusBadgeStyles(order.invoiceStatus)}>
-                              {order.invoiceStatus}
-                            </Badge>
-                          </td>
-                          <td className="px-4 py-3">
-                            <Badge variant="outline" className={getStatusBadgeStyles(order.paymentStatus)}>
-                              {order.paymentStatus}
-                            </Badge>
-                          </td>
-                          <td className="px-4 py-3 text-right font-semibold text-slate-900 dark:text-white">{formatCurrency(order.total)}</td>
-                          <td className="px-4 py-3">
-                            <DropdownMenu>
-                              <DropdownMenuTrigger asChild>
-                                <Button variant="ghost" size="icon" className="h-8 w-8" onClick={(e) => e.stopPropagation()}>
-                                  <MoreHorizontal className="h-4 w-4" />
-                                </Button>
-                              </DropdownMenuTrigger>
-                              <DropdownMenuContent align="end">
-                                <DropdownMenuItem onClick={(e) => { e.stopPropagation(); setLocation(`/sales-orders/${order.id}/edit`); }}>
-                                  <Pencil className="mr-2 h-4 w-4" /> Edit
-                                </DropdownMenuItem>
-                                <DropdownMenuItem>
-                                  <Receipt className="mr-2 h-4 w-4" /> Convert to Invoice
-                                </DropdownMenuItem>
-                                <DropdownMenuSeparator />
-                                <DropdownMenuItem className="text-destructive">
-                                  <Trash2 className="mr-2 h-4 w-4" /> Delete
-                                </DropdownMenuItem>
-                              </DropdownMenuContent>
-                            </DropdownMenu>
-                          </td>
+                            <span className="font-medium text-slate-900 dark:text-white truncate">{order.customerName}</span>
+                          </div>
+                          <span className="font-semibold text-slate-900 dark:text-white">{formatCurrency(order.total)}</span>
+                        </div>
+                        <div className="ml-6 flex items-center gap-2 text-sm flex-wrap">
+                          <span className="text-slate-500">{order.salesOrderNumber}</span>
+                          <span className="text-slate-300">|</span>
+                          <span className="text-slate-500">{formatDate(order.date)}</span>
+                        </div>
+                        <div className="ml-6 mt-2 flex items-center gap-2 flex-wrap">
+                          <Badge variant="outline" className={getStatusBadgeStyles(order.orderStatus)}>
+                            {order.orderStatus}
+                          </Badge>
+                          <Badge variant="outline" className={getStatusBadgeStyles(order.invoiceStatus)}>
+                            {order.invoiceStatus}
+                          </Badge>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <>
+                    <table className="w-full">
+                      <thead className="bg-slate-50 dark:bg-slate-800 sticky top-0 z-10">
+                        <tr>
+                          <th className="w-12 px-4 py-3">
+                            <Checkbox />
+                          </th>
+                          <th className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase">Date</th>
+                          <th className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase">Sales Order#</th>
+                          <th className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase">Reference#</th>
+                          <th className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase">Customer Name</th>
+                          <th className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase">Status</th>
+                          <th className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase">Invoiced</th>
+                          <th className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase">Payment</th>
+                          <th className="px-4 py-3 text-right text-xs font-medium text-slate-500 uppercase">Amount</th>
+                          <th className="w-10 px-4 py-3"></th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+                        {paginatedItems.map((order) => (
+                          <tr
+                            key={order.id}
+                            className="hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer"
+                            onClick={() => handleOrderClick(order)}
+                            data-testid={`row-order-${order.id}`}
+                          >
+                            <td className="px-4 py-3">
+                              <Checkbox
+                                checked={selectedOrders.includes(order.id)}
+                                onClick={(e) => toggleSelectOrder(order.id, e)}
+                              />
+                            </td>
+                            <td className="px-4 py-3 text-sm text-slate-600 dark:text-slate-400">{formatDate(order.date)}</td>
+                            <td className="px-4 py-3">
+                              <span className="text-blue-600 font-medium">{order.salesOrderNumber}</span>
+                            </td>
+                            <td className="px-4 py-3 text-sm text-slate-600 dark:text-slate-400">{order.referenceNumber || '-'}</td>
+                            <td className="px-4 py-3 text-sm text-slate-900 dark:text-white font-medium">{order.customerName}</td>
+                            <td className="px-4 py-3">
+                              <Badge variant="outline" className={getStatusBadgeStyles(order.orderStatus)}>
+                                {order.orderStatus}
+                              </Badge>
+                            </td>
+                            <td className="px-4 py-3">
+                              <Badge variant="outline" className={getStatusBadgeStyles(order.invoiceStatus)}>
+                                {order.invoiceStatus}
+                              </Badge>
+                            </td>
+                            <td className="px-4 py-3">
+                              <Badge variant="outline" className={getStatusBadgeStyles(order.paymentStatus)}>
+                                {order.paymentStatus}
+                              </Badge>
+                            </td>
+                            <td className="px-4 py-3 text-right font-semibold text-slate-900 dark:text-white">{formatCurrency(order.total)}</td>
+                            <td className="px-4 py-3">
+                              <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                  <Button variant="ghost" size="icon" className="h-8 w-8" onClick={(e) => e.stopPropagation()}>
+                                    <MoreHorizontal className="h-4 w-4" />
+                                  </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent align="end">
+                                  <DropdownMenuItem onClick={(e) => { e.stopPropagation(); setLocation(`/sales-orders/${order.id}/edit`); }}>
+                                    <Pencil className="mr-2 h-4 w-4" /> Edit
+                                  </DropdownMenuItem>
+                                  <DropdownMenuItem>
+                                    <Receipt className="mr-2 h-4 w-4" /> Convert to Invoice
+                                  </DropdownMenuItem>
+                                  <DropdownMenuSeparator />
+                                  <DropdownMenuItem className="text-destructive">
+                                    <Trash2 className="mr-2 h-4 w-4" /> Delete
+                                  </DropdownMenuItem>
+                                </DropdownMenuContent>
+                              </DropdownMenu>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </>
+                )}
+              </div>
+              {filteredOrders.length > 0 && (
+                <div className="flex-none border-t border-slate-200 bg-white">
                   <TablePagination
                     currentPage={currentPage}
                     totalPages={totalPages}
@@ -1159,10 +1166,11 @@ export default function SalesOrdersPage() {
                     itemsPerPage={itemsPerPage}
                     onPageChange={goToPage}
                   />
-                </>
+                </div>
               )}
             </div>
           </div>
+
         </ResizablePanel>
 
         {selectedOrder && (

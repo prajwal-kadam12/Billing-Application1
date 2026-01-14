@@ -786,144 +786,150 @@ export default function Invoices() {
                             </div>
                         )}
 
-                        <div className="flex-1 overflow-auto border-t border-slate-200">
-                            {loading ? (
-                                <div className="p-8 text-center text-slate-500">Loading invoices...</div>
-                            ) : filteredInvoices.length === 0 ? (
-                                <div className="p-8 text-center text-slate-500">
-                                    <p>No invoices found.</p>
-                                    <Link href="/invoices/new">
-                                        <Button className="mt-4 bg-red-500 hover:bg-red-600">
-                                            <Plus className="h-4 w-4 mr-2" /> Create your first invoice
-                                        </Button>
-                                    </Link>
-                                </div>
-                            ) : selectedInvoice ? (
-                                <div className="divide-y divide-slate-100">
-                                    {filteredInvoices.map((invoice) => {
-                                        const status = getCalculatedStatus(invoice);
-                                        return (
-                                            <div
-                                                key={invoice.id}
-                                                className={`p-4 hover:bg-slate-50 cursor-pointer transition-colors ${selectedInvoice?.id === invoice.id ? 'bg-blue-50 border-l-2 border-l-blue-600' : ''
-                                                    }`}
-                                                onClick={() => handleInvoiceClick(invoice)}
-                                                data-testid={`card-invoice-${invoice.id}`}
-                                            >
-                                                <div className="flex items-start justify-between mb-1">
-                                                    <div className="flex items-center gap-2">
-                                                        <Checkbox
-                                                            checked={selectedInvoices.includes(invoice.id)}
-                                                            onClick={(e) => toggleSelectInvoice(invoice.id, e)}
-                                                        />
-                                                        <span className="font-medium text-slate-900 truncate">{invoice.customerName}</span>
-                                                    </div>
-                                                    <span className="text-sm font-medium text-slate-900">
-                                                        {formatCurrency(invoice.amount)}
-                                                    </span>
-                                                </div>
-                                                <div className="ml-6 flex items-center gap-2 text-sm">
-                                                    <span className="text-blue-600">{invoice.invoiceNumber}</span>
-                                                    <span className="text-slate-400">{formatDate(invoice.date)}</span>
-                                                </div>
-                                                <div className="ml-6 mt-1">
-                                                    <Badge className={`text-[10px] px-1.5 py-0 border-0 uppercase ${status.bgColor} ${status.color}`}>
-                                                        {status.label}
-                                                    </Badge>
-                                                </div>
-                                            </div>
-                                        );
-                                    })}
-                                </div>
-                            ) : (
-                                <>
-                                    <table className="w-full">
-                                        <thead className="bg-slate-50 sticky top-0">
-                                            <tr>
-                                                <th className="w-12 px-4 py-3">
-                                                    <Checkbox />
-                                                </th>
-                                                <th className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase">Date</th>
-                                                <th className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase">Invoice#</th>
-                                                <th className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase">Customer Name</th>
-                                                <th className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase">Status</th>
-                                                <th className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase">Due Date</th>
-                                                <th className="px-4 py-3 text-right text-xs font-medium text-slate-500 uppercase">Amount</th>
-                                                <th className="px-4 py-3 text-right text-xs font-medium text-slate-500 uppercase">Balance Due</th>
-                                                <th className="w-10 px-4 py-3"></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody className="divide-y divide-slate-100">
-                                            {paginatedItems.map((invoice) => {
-                                                const status = getCalculatedStatus(invoice);
-                                                return (
-                                                    <tr
-                                                        key={invoice.id}
-                                                        className="hover:bg-slate-50 cursor-pointer"
-                                                        onClick={() => handleInvoiceClick(invoice)}
-                                                        data-testid={`row-invoice-${invoice.id}`}
-                                                    >
-                                                        <td className="px-4 py-3">
+                        <div className="flex-1 flex flex-col min-h-0 overflow-hidden border-t border-slate-200">
+                            <div className="flex-1 overflow-auto">
+
+                                {loading ? (
+                                    <div className="p-8 text-center text-slate-500">Loading invoices...</div>
+                                ) : filteredInvoices.length === 0 ? (
+                                    <div className="p-8 text-center text-slate-500">
+                                        <p>No invoices found.</p>
+                                        <Link href="/invoices/new">
+                                            <Button className="mt-4 bg-red-500 hover:bg-red-600">
+                                                <Plus className="h-4 w-4 mr-2" /> Create your first invoice
+                                            </Button>
+                                        </Link>
+                                    </div>
+                                ) : selectedInvoice ? (
+                                    <div className="divide-y divide-slate-100">
+                                        {filteredInvoices.map((invoice) => {
+                                            const status = getCalculatedStatus(invoice);
+                                            return (
+                                                <div
+                                                    key={invoice.id}
+                                                    className={`p-4 hover:bg-slate-50 cursor-pointer transition-colors ${selectedInvoice?.id === invoice.id ? 'bg-blue-50 border-l-2 border-l-blue-600' : ''
+                                                        }`}
+                                                    onClick={() => handleInvoiceClick(invoice)}
+                                                    data-testid={`card-invoice-${invoice.id}`}
+                                                >
+                                                    <div className="flex items-start justify-between mb-1">
+                                                        <div className="flex items-center gap-2">
                                                             <Checkbox
                                                                 checked={selectedInvoices.includes(invoice.id)}
                                                                 onClick={(e) => toggleSelectInvoice(invoice.id, e)}
                                                             />
-                                                        </td>
-                                                        <td className="px-4 py-3 text-sm text-slate-600">
-                                                            {formatDate(invoice.date)}
-                                                        </td>
-                                                        <td className="px-4 py-3">
-                                                            <span className="text-sm text-blue-600 hover:underline">
-                                                                {invoice.invoiceNumber}
-                                                            </span>
-                                                        </td>
-                                                        <td className="px-4 py-3 text-sm text-slate-900 font-medium">
-                                                            {invoice.customerName}
-                                                        </td>
-                                                        <td className="px-4 py-3">
-                                                            <Badge className={`text-[10px] uppercase ${status.bgColor} ${status.color}`}>
-                                                                {status.label}
-                                                            </Badge>
-                                                        </td>
-                                                        <td className="px-4 py-3 text-sm text-slate-600">
-                                                            {formatDate(invoice.dueDate)}
-                                                        </td>
-                                                        <td className="px-4 py-3 text-sm text-slate-900 text-right font-medium">
+                                                            <span className="font-medium text-slate-900 truncate">{invoice.customerName}</span>
+                                                        </div>
+                                                        <span className="text-sm font-medium text-slate-900">
                                                             {formatCurrency(invoice.amount)}
-                                                        </td>
-                                                        <td className="px-4 py-3 text-sm text-slate-900 text-right font-medium">
-                                                            {formatCurrency(invoice.balanceDue)}
-                                                        </td>
-                                                        <td className="px-4 py-3">
-                                                            <DropdownMenu>
-                                                                <DropdownMenuTrigger asChild onClick={(e) => e.stopPropagation()}>
-                                                                    <Button variant="ghost" size="icon" className="h-8 w-8">
-                                                                        <MoreHorizontal className="h-4 w-4" />
-                                                                    </Button>
-                                                                </DropdownMenuTrigger>
-                                                                <DropdownMenuContent align="end">
-                                                                    <DropdownMenuItem onClick={(e) => { e.stopPropagation(); setLocation(`/invoices/${invoice.id}/edit`); }}>Edit</DropdownMenuItem>
-                                                                    <DropdownMenuItem onClick={(e) => { e.stopPropagation(); setLocation(`/invoices/create?cloneFrom=${invoice.id}`); }}>Clone</DropdownMenuItem>
-                                                                    <DropdownMenuItem onClick={(e) => e.stopPropagation()}>Send</DropdownMenuItem>
-                                                                    <DropdownMenuItem onClick={(e) => e.stopPropagation()} className="text-red-600">Delete</DropdownMenuItem>
-                                                                </DropdownMenuContent>
-                                                            </DropdownMenu>
-                                                        </td>
-                                                    </tr>
-                                                );
-                                            })}
-                                        </tbody>
-                                    </table>
-                                </>
-                            )}
+                                                        </span>
+                                                    </div>
+                                                    <div className="ml-6 flex items-center gap-2 text-sm">
+                                                        <span className="text-blue-600">{invoice.invoiceNumber}</span>
+                                                        <span className="text-slate-400">{formatDate(invoice.date)}</span>
+                                                    </div>
+                                                    <div className="ml-6 mt-1">
+                                                        <Badge className={`text-[10px] px-1.5 py-0 border-0 uppercase ${status.bgColor} ${status.color}`}>
+                                                            {status.label}
+                                                        </Badge>
+                                                    </div>
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+                                ) : (
+                                    <>
+                                        <table className="w-full">
+                                            <thead className="bg-slate-50 sticky top-0">
+                                                <tr>
+                                                    <th className="w-12 px-4 py-3">
+                                                        <Checkbox />
+                                                    </th>
+                                                    <th className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase">Date</th>
+                                                    <th className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase">Invoice#</th>
+                                                    <th className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase">Customer Name</th>
+                                                    <th className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase">Status</th>
+                                                    <th className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase">Due Date</th>
+                                                    <th className="px-4 py-3 text-right text-xs font-medium text-slate-500 uppercase">Amount</th>
+                                                    <th className="px-4 py-3 text-right text-xs font-medium text-slate-500 uppercase">Balance Due</th>
+                                                    <th className="w-10 px-4 py-3"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody className="divide-y divide-slate-100">
+                                                {paginatedItems.map((invoice) => {
+                                                    const status = getCalculatedStatus(invoice);
+                                                    return (
+                                                        <tr
+                                                            key={invoice.id}
+                                                            className="hover:bg-slate-50 cursor-pointer"
+                                                            onClick={() => handleInvoiceClick(invoice)}
+                                                            data-testid={`row-invoice-${invoice.id}`}
+                                                        >
+                                                            <td className="px-4 py-3">
+                                                                <Checkbox
+                                                                    checked={selectedInvoices.includes(invoice.id)}
+                                                                    onClick={(e) => toggleSelectInvoice(invoice.id, e)}
+                                                                />
+                                                            </td>
+                                                            <td className="px-4 py-3 text-sm text-slate-600">
+                                                                {formatDate(invoice.date)}
+                                                            </td>
+                                                            <td className="px-4 py-3">
+                                                                <span className="text-sm text-blue-600 hover:underline">
+                                                                    {invoice.invoiceNumber}
+                                                                </span>
+                                                            </td>
+                                                            <td className="px-4 py-3 text-sm text-slate-900 font-medium">
+                                                                {invoice.customerName}
+                                                            </td>
+                                                            <td className="px-4 py-3">
+                                                                <Badge className={`text-[10px] uppercase ${status.bgColor} ${status.color}`}>
+                                                                    {status.label}
+                                                                </Badge>
+                                                            </td>
+                                                            <td className="px-4 py-3 text-sm text-slate-600">
+                                                                {formatDate(invoice.dueDate)}
+                                                            </td>
+                                                            <td className="px-4 py-3 text-sm text-slate-900 text-right font-medium">
+                                                                {formatCurrency(invoice.amount)}
+                                                            </td>
+                                                            <td className="px-4 py-3 text-sm text-slate-900 text-right font-medium">
+                                                                {formatCurrency(invoice.balanceDue)}
+                                                            </td>
+                                                            <td className="px-4 py-3">
+                                                                <DropdownMenu>
+                                                                    <DropdownMenuTrigger asChild onClick={(e) => e.stopPropagation()}>
+                                                                        <Button variant="ghost" size="icon" className="h-8 w-8">
+                                                                            <MoreHorizontal className="h-4 w-4" />
+                                                                        </Button>
+                                                                    </DropdownMenuTrigger>
+                                                                    <DropdownMenuContent align="end">
+                                                                        <DropdownMenuItem onClick={(e) => { e.stopPropagation(); setLocation(`/invoices/${invoice.id}/edit`); }}>Edit</DropdownMenuItem>
+                                                                        <DropdownMenuItem onClick={(e) => { e.stopPropagation(); setLocation(`/invoices/create?cloneFrom=${invoice.id}`); }}>Clone</DropdownMenuItem>
+                                                                        <DropdownMenuItem onClick={(e) => e.stopPropagation()}>Send</DropdownMenuItem>
+                                                                        <DropdownMenuItem onClick={(e) => e.stopPropagation()} className="text-red-600">Delete</DropdownMenuItem>
+                                                                    </DropdownMenuContent>
+                                                                </DropdownMenu>
+                                                            </td>
+                                                        </tr>
+                                                    );
+                                                })}
+                                            </tbody>
+                                        </table>
+                                    </>
+                                )}
+                            </div>
                         </div>
-                        <TablePagination
-                            currentPage={currentPage}
-                            totalPages={totalPages}
-                            totalItems={totalItems}
-                            itemsPerPage={itemsPerPage}
-                            onPageChange={goToPage}
-                        />
+                        <div className="flex-none border-t border-slate-200 bg-white">
+                            <TablePagination
+                                currentPage={currentPage}
+                                totalPages={totalPages}
+                                totalItems={totalItems}
+                                itemsPerPage={itemsPerPage}
+                                onPageChange={goToPage}
+                            />
+                        </div>
+
                     </div>
                 </ResizablePanel>
 

@@ -1739,163 +1739,169 @@ export default function CustomersPage() {
               </div>
             )}
 
-            <div className={`flex-1 overflow-auto ${selectedCustomer ? 'p-0' : 'p-4'}`}>
-              {loading ? (
-                <div className="flex items-center justify-center py-16">
-                  <Loader2 className="h-8 w-8 animate-spin text-blue-600" />
-                </div>
-              ) : filteredCustomers.length === 0 ? (
-                <div className="flex flex-col items-center justify-center py-16 text-center">
-                  <div className="h-16 w-16 rounded-full bg-slate-100 flex items-center justify-center mb-4">
-                    <User className="h-8 w-8 text-slate-400" />
+            <div className={`flex-1 flex flex-col min-h-0 ${selectedCustomer ? 'p-0' : 'p-4'}`}>
+              <div className="flex-1 overflow-auto">
+
+                {loading ? (
+                  <div className="flex items-center justify-center py-16">
+                    <Loader2 className="h-8 w-8 animate-spin text-blue-600" />
                   </div>
-                  <h3 className="text-lg font-semibold mb-2">No customers yet</h3>
-                  <p className="text-slate-500 mb-4 max-w-sm">
-                    Create customers to track their details and manage your sales efficiently.
-                  </p>
-                  <Button
-                    onClick={() => setLocation("/customers/new")}
-                    className="bg-blue-600 hover:bg-blue-700"
-                    data-testid="button-create-first-customer"
-                  >
-                    <Plus className="h-4 w-4 mr-2" /> Create Your First Customer
-                  </Button>
-                </div>
-              ) : selectedCustomer ? (
-                <div className="divide-y divide-slate-100 dark:divide-slate-800">
-                  {filteredCustomers.map((customer) => (
-                    <div
-                      key={customer.id}
-                      className={`p-4 hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer transition-colors ${selectedCustomer?.id === customer.id ? 'bg-blue-50 dark:bg-blue-900/20 border-l-2 border-l-blue-600' : ''
-                        }`}
-                      onClick={() => handleCustomerClick(customer)}
-                      data-testid={`card-customer-${customer.id}`}
+                ) : filteredCustomers.length === 0 ? (
+                  <div className="flex flex-col items-center justify-center py-16 text-center">
+                    <div className="h-16 w-16 rounded-full bg-slate-100 flex items-center justify-center mb-4">
+                      <User className="h-8 w-8 text-slate-400" />
+                    </div>
+                    <h3 className="text-lg font-semibold mb-2">No customers yet</h3>
+                    <p className="text-slate-500 mb-4 max-w-sm">
+                      Create customers to track their details and manage your sales efficiently.
+                    </p>
+                    <Button
+                      onClick={() => setLocation("/customers/new")}
+                      className="bg-blue-600 hover:bg-blue-700"
+                      data-testid="button-create-first-customer"
                     >
-                      <div className="flex items-start gap-3">
-                        <Checkbox
-                          checked={selectedCustomers.includes(customer.id)}
-                          onCheckedChange={() => toggleSelectCustomer(customer.id, {} as any)}
-                          onClick={(e) => e.stopPropagation()}
-                        />
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center justify-between mb-0.5">
-                            <span className="font-medium text-slate-900 dark:text-white truncate uppercase">
-                              {customer.name}
-                            </span>
-                          </div>
-                          <div className="text-xs text-slate-500">
-                            {formatCurrency(customer.outstandingReceivables || 0)}
+                      <Plus className="h-4 w-4 mr-2" /> Create Your First Customer
+                    </Button>
+                  </div>
+                ) : selectedCustomer ? (
+                  <div className="divide-y divide-slate-100 dark:divide-slate-800">
+                    {filteredCustomers.map((customer) => (
+                      <div
+                        key={customer.id}
+                        className={`p-4 hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer transition-colors ${selectedCustomer?.id === customer.id ? 'bg-blue-50 dark:bg-blue-900/20 border-l-2 border-l-blue-600' : ''
+                          }`}
+                        onClick={() => handleCustomerClick(customer)}
+                        data-testid={`card-customer-${customer.id}`}
+                      >
+                        <div className="flex items-start gap-3">
+                          <Checkbox
+                            checked={selectedCustomers.includes(customer.id)}
+                            onCheckedChange={() => toggleSelectCustomer(customer.id, {} as any)}
+                            onClick={(e) => e.stopPropagation()}
+                          />
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center justify-between mb-0.5">
+                              <span className="font-medium text-slate-900 dark:text-white truncate uppercase">
+                                {customer.name}
+                              </span>
+                            </div>
+                            <div className="text-xs text-slate-500">
+                              {formatCurrency(customer.outstandingReceivables || 0)}
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div className="border rounded-lg overflow-hidden bg-white dark:bg-slate-900">
-                  <div className="overflow-x-auto">
-                    <table className="w-full">
-                      <thead className="bg-slate-50 dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700">
-                        <tr>
-                          <th className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider w-10">
-                            <Checkbox
-                              checked={selectedCustomers.length === paginatedItems.length && paginatedItems.length > 0}
-                              onCheckedChange={(checked) => {
-                                if (checked) {
-                                  setSelectedCustomers(paginatedItems.map(c => c.id));
-                                } else {
-                                  setSelectedCustomers([]);
-                                }
-                              }}
-                              data-testid="checkbox-select-all"
-                            />
-                          </th>
-                          <th className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Name</th>
-                          <th className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Company Name</th>
-                          <th className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Email</th>
-                          <th className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Phone</th>
-                          <th className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Place of Supply</th>
-                          <th className="px-4 py-3 text-right text-xs font-medium text-slate-500 uppercase tracking-wider">Receivables</th>
-                          <th className="px-4 py-3 text-right text-xs font-medium text-slate-500 uppercase tracking-wider">Unused Credits</th>
-                          <th className="px-4 py-3 text-center text-xs font-medium text-slate-500 uppercase tracking-wider">Actions</th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-slate-200 dark:divide-slate-700">
-                        {paginatedItems.map((customer) => (
-                          <tr
-                            key={customer.id}
-                            className={`hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer transition-colors ${selectedCustomer?.id === customer.id ? 'bg-blue-50 dark:bg-blue-900/20' : ''}`}
-                            onClick={() => handleCustomerClick(customer)}
-                            data-testid={`row-customer-${customer.id}`}
-                          >
-                            <td className="px-4 py-4" onClick={(e) => e.stopPropagation()}>
-                              <Checkbox
-                                checked={selectedCustomers.includes(customer.id)}
-                                onCheckedChange={() => toggleSelectCustomer(customer.id, {} as any)}
-                                data-testid={`checkbox-customer-${customer.id}`}
-                              />
-                            </td>
-                            <td className="px-4 py-4 text-sm font-medium text-blue-600 hover:underline">
-                              {customer.name}
-                            </td>
-                            <td className="px-4 py-4 text-sm text-slate-500 dark:text-slate-400">
-                              {customer.companyName || '-'}
-                            </td>
-                            <td className="px-4 py-4 text-sm text-slate-600 dark:text-slate-300">
-                              {customer.email}
-                            </td>
-                            <td className="px-4 py-4 text-sm text-slate-600 dark:text-slate-300">
-                              {customer.phone}
-                            </td>
-                            <td className="px-4 py-4 text-sm text-slate-600 dark:text-slate-300">
-                              {customer.placeOfSupply || '-'}
-                            </td>
-                            <td className="px-4 py-4 text-sm font-semibold text-right text-slate-900 dark:text-white">
-                              {formatCurrency(customer.outstandingReceivables || 0)}
-                            </td>
-                            <td className="px-4 py-4 text-sm text-right text-slate-600 dark:text-slate-300">
-                              {formatCurrency(customer.unusedCredits || 0)}
-                            </td>
-                            <td className="px-4 py-4 text-center" onClick={(e) => e.stopPropagation()}>
-                              <DropdownMenu>
-                                <DropdownMenuTrigger asChild>
-                                  <Button variant="ghost" size="icon" className="h-8 w-8 hover-elevate">
-                                    <MoreHorizontal className="h-4 w-4" />
-                                  </Button>
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent align="end">
-                                  <DropdownMenuItem onClick={() => setLocation(`/customers/${customer.id}/edit`)}>
-                                    <Pencil className="mr-2 h-4 w-4" /> Edit
-                                  </DropdownMenuItem>
-                                  <DropdownMenuItem
-                                    className="text-red-600 focus:text-red-600"
-                                    onClick={() => {
-                                      setCustomerToDelete(customer.id);
-                                      setDeleteDialogOpen(true);
-                                    }}
-                                  >
-                                    <Trash2 className="mr-2 h-4 w-4" /> Delete
-                                  </DropdownMenuItem>
-                                </DropdownMenuContent>
-                              </DropdownMenu>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                    ))}
                   </div>
-                </div>
-              )}
+                ) : (
+                  <div className="border rounded-lg overflow-hidden bg-white dark:bg-slate-900">
+                    <div className="overflow-x-auto">
+                      <table className="w-full">
+                        <thead className="bg-slate-50 dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700">
+                          <tr>
+                            <th className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider w-10">
+                              <Checkbox
+                                checked={selectedCustomers.length === paginatedItems.length && paginatedItems.length > 0}
+                                onCheckedChange={(checked) => {
+                                  if (checked) {
+                                    setSelectedCustomers(paginatedItems.map(c => c.id));
+                                  } else {
+                                    setSelectedCustomers([]);
+                                  }
+                                }}
+                                data-testid="checkbox-select-all"
+                              />
+                            </th>
+                            <th className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Name</th>
+                            <th className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Company Name</th>
+                            <th className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Email</th>
+                            <th className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Phone</th>
+                            <th className="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Place of Supply</th>
+                            <th className="px-4 py-3 text-right text-xs font-medium text-slate-500 uppercase tracking-wider">Receivables</th>
+                            <th className="px-4 py-3 text-right text-xs font-medium text-slate-500 uppercase tracking-wider">Unused Credits</th>
+                            <th className="px-4 py-3 text-center text-xs font-medium text-slate-500 uppercase tracking-wider">Actions</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-slate-200 dark:divide-slate-700">
+                          {paginatedItems.map((customer) => (
+                            <tr
+                              key={customer.id}
+                              className={`hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer transition-colors ${selectedCustomer?.id === customer.id ? 'bg-blue-50 dark:bg-blue-900/20' : ''}`}
+                              onClick={() => handleCustomerClick(customer)}
+                              data-testid={`row-customer-${customer.id}`}
+                            >
+                              <td className="px-4 py-4" onClick={(e) => e.stopPropagation()}>
+                                <Checkbox
+                                  checked={selectedCustomers.includes(customer.id)}
+                                  onCheckedChange={() => toggleSelectCustomer(customer.id, {} as any)}
+                                  data-testid={`checkbox-customer-${customer.id}`}
+                                />
+                              </td>
+                              <td className="px-4 py-4 text-sm font-medium text-blue-600 hover:underline">
+                                {customer.name}
+                              </td>
+                              <td className="px-4 py-4 text-sm text-slate-500 dark:text-slate-400">
+                                {customer.companyName || '-'}
+                              </td>
+                              <td className="px-4 py-4 text-sm text-slate-600 dark:text-slate-300">
+                                {customer.email}
+                              </td>
+                              <td className="px-4 py-4 text-sm text-slate-600 dark:text-slate-300">
+                                {customer.phone}
+                              </td>
+                              <td className="px-4 py-4 text-sm text-slate-600 dark:text-slate-300">
+                                {customer.placeOfSupply || '-'}
+                              </td>
+                              <td className="px-4 py-4 text-sm font-semibold text-right text-slate-900 dark:text-white">
+                                {formatCurrency(customer.outstandingReceivables || 0)}
+                              </td>
+                              <td className="px-4 py-4 text-sm text-right text-slate-600 dark:text-slate-300">
+                                {formatCurrency(customer.unusedCredits || 0)}
+                              </td>
+                              <td className="px-4 py-4 text-center" onClick={(e) => e.stopPropagation()}>
+                                <DropdownMenu>
+                                  <DropdownMenuTrigger asChild>
+                                    <Button variant="ghost" size="icon" className="h-8 w-8 hover-elevate">
+                                      <MoreHorizontal className="h-4 w-4" />
+                                    </Button>
+                                  </DropdownMenuTrigger>
+                                  <DropdownMenuContent align="end">
+                                    <DropdownMenuItem onClick={() => setLocation(`/customers/${customer.id}/edit`)}>
+                                      <Pencil className="mr-2 h-4 w-4" /> Edit
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem
+                                      className="text-red-600 focus:text-red-600"
+                                      onClick={() => {
+                                        setCustomerToDelete(customer.id);
+                                        setDeleteDialogOpen(true);
+                                      }}
+                                    >
+                                      <Trash2 className="mr-2 h-4 w-4" /> Delete
+                                    </DropdownMenuItem>
+                                  </DropdownMenuContent>
+                                </DropdownMenu>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
             {filteredCustomers.length > 0 && (
-              <TablePagination
-                currentPage={currentPage}
-                totalPages={totalPages}
-                totalItems={totalItems}
-                itemsPerPage={itemsPerPage}
-                onPageChange={goToPage}
-              />
+              <div className="flex-none border-t border-slate-200 bg-white">
+                <TablePagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  totalItems={totalItems}
+                  itemsPerPage={itemsPerPage}
+                  onPageChange={goToPage}
+                />
+              </div>
             )}
+
           </div>
         </ResizablePanel>
 

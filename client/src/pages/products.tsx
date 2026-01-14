@@ -169,235 +169,243 @@ export default function Products() {
           className="flex flex-col overflow-hidden bg-white"
         >
           <div className="flex flex-col h-full overflow-hidden">
-            <div className="w-full space-y-4 p-4 overflow-y-auto">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  {/* Filter Dropdown */}
-                  <DropdownMenu open={filterOpen} onOpenChange={setFilterOpen}>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" className="text-xl font-semibold text-slate-900 gap-2 px-2" data-testid="dropdown-items-filter">
-                        {getCurrentFilterLabel()}
-                        <ChevronDown className="h-4 w-4 text-slate-500" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="start" className="w-48">
-                      {filterOptions.map((option) => (
-                        <DropdownMenuItem
-                          key={option.value}
-                          onClick={() => {
-                            setFilterStatus(option.value);
-                            setFilterOpen(false);
-                          }}
-                          className={filterStatus === option.value ? "bg-blue-50 text-blue-600" : ""}
-                          data-testid={`filter-option-${option.value}`}
-                        >
-                          {option.label}
-                        </DropdownMenuItem>
-                      ))}
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Button
-                    onClick={() => setLocation("/products/new")}
-                    className="bg-blue-600 hover:bg-blue-700 gap-1.5 h-9"
-                    data-testid="button-new-item"
-                  >
-                    <Plus className="h-4 w-4" /> New
-                  </Button>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="outline" size="icon" className="h-9 w-9" data-testid="button-more-options">
-                        <MoreHorizontal className="h-4 w-4" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" className="w-56">
-                      <DropdownMenuSub>
-                        <DropdownMenuSubTrigger>
-                          <ArrowUpDown className="mr-2 h-4 w-4" />
-                          Sort by
-                        </DropdownMenuSubTrigger>
-                        <DropdownMenuSubContent>
-                          <DropdownMenuItem>Name</DropdownMenuItem>
-                          <DropdownMenuItem>Purchase Rate</DropdownMenuItem>
-                          <DropdownMenuItem>Rate</DropdownMenuItem>
-                          <DropdownMenuItem>HSN/SAC</DropdownMenuItem>
-                          <DropdownMenuItem>Last Modified Time</DropdownMenuItem>
-                          <DropdownMenuItem>Created Time</DropdownMenuItem>
-                        </DropdownMenuSubContent>
-                      </DropdownMenuSub>
-                      <DropdownMenuItem>
-                        <Import className="mr-2 h-4 w-4" />
-                        Import Items
-                      </DropdownMenuItem>
-                      <DropdownMenuSub>
-                        <DropdownMenuSubTrigger>
-                          <Download className="mr-2 h-4 w-4" />
-                          Export
-                        </DropdownMenuSubTrigger>
-                        <DropdownMenuSubContent>
-                          <DropdownMenuItem>Export as CSV</DropdownMenuItem>
-                          <DropdownMenuItem>Export as Excel</DropdownMenuItem>
-                        </DropdownMenuSubContent>
-                      </DropdownMenuSub>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuItem onClick={() => refetch()}>
-                        <RefreshCw className="mr-2 h-4 w-4" />
-                        Refresh List
-                      </DropdownMenuItem>
-                      <DropdownMenuItem>
-                        <Settings className="mr-2 h-4 w-4" />
-                        Preferences
-                      </DropdownMenuItem>
-                      <DropdownMenuItem>
-                        <RotateCcw className="mr-2 h-4 w-4" />
-                        Reset Column Width
-                      </DropdownMenuItem>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuItem>
-                        <FileText className="mr-2 h-4 w-4" />
-                        Update New GST Rates
-                      </DropdownMenuItem>
-                      <DropdownMenuItem>
-                        <CheckSquare className="mr-2 h-4 w-4" />
-                        Validate HSN/SAC
-                      </DropdownMenuItem>
-                      <DropdownMenuItem>
-                        <History className="mr-2 h-4 w-4" />
-                        HSN/SAC Update History
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </div>
-              </div>
+            <div className="flex-1 flex flex-col min-h-0 overflow-hidden">
+              <div className="flex-1 overflow-auto p-4 space-y-4">
 
-              <div className="border border-slate-200 rounded-lg bg-white overflow-hidden">
-                {isLoading ? (
-                  <div className="p-4 space-y-3">
-                    {[1, 2, 3, 4, 5].map((i) => (
-                      <div key={i} className="flex gap-4">
-                        <Skeleton className="h-4 w-4" />
-                        <Skeleton className="h-4 w-32" />
-                        <Skeleton className="h-4 w-48" />
-                        <Skeleton className="h-4 w-20" />
-                        <Skeleton className="h-4 w-48" />
-                        <Skeleton className="h-4 w-20" />
-                        <Skeleton className="h-4 w-24" />
-                        <Skeleton className="h-4 w-16" />
-                      </div>
-                    ))}
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    {/* Filter Dropdown */}
+                    <DropdownMenu open={filterOpen} onOpenChange={setFilterOpen}>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" className="text-xl font-semibold text-slate-900 gap-2 px-2" data-testid="dropdown-items-filter">
+                          {getCurrentFilterLabel()}
+                          <ChevronDown className="h-4 w-4 text-slate-500" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="start" className="w-48">
+                        {filterOptions.map((option) => (
+                          <DropdownMenuItem
+                            key={option.value}
+                            onClick={() => {
+                              setFilterStatus(option.value);
+                              setFilterOpen(false);
+                            }}
+                            className={filterStatus === option.value ? "bg-blue-50 text-blue-600" : ""}
+                            data-testid={`filter-option-${option.value}`}
+                          >
+                            {option.label}
+                          </DropdownMenuItem>
+                        ))}
+                      </DropdownMenuContent>
+                    </DropdownMenu>
                   </div>
-                ) : items.length === 0 ? (
-                  <div className="p-12 text-center">
-                    <div className="text-slate-400 text-lg mb-2">No items found</div>
-                    <p className="text-slate-500 text-sm">
-                      {filterStatus === 'active'
-                        ? "No active items found. Try viewing all items."
-                        : filterStatus === 'inactive'
-                          ? "No inactive items found. Try viewing all items."
-                          : "Create your first item to get started."}
-                    </p>
+                  <div className="flex items-center gap-2">
                     <Button
                       onClick={() => setLocation("/products/new")}
-                      className="mt-4 bg-blue-600 hover:bg-blue-700"
-                      data-testid="button-create-first-item"
+                      className="bg-blue-600 hover:bg-blue-700 gap-1.5 h-9"
+                      data-testid="button-new-item"
                     >
-                      <Plus className="h-4 w-4 mr-2" /> Create Item
+                      <Plus className="h-4 w-4" /> New
                     </Button>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="outline" size="icon" className="h-9 w-9" data-testid="button-more-options">
+                          <MoreHorizontal className="h-4 w-4" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end" className="w-56">
+                        <DropdownMenuSub>
+                          <DropdownMenuSubTrigger>
+                            <ArrowUpDown className="mr-2 h-4 w-4" />
+                            Sort by
+                          </DropdownMenuSubTrigger>
+                          <DropdownMenuSubContent>
+                            <DropdownMenuItem>Name</DropdownMenuItem>
+                            <DropdownMenuItem>Purchase Rate</DropdownMenuItem>
+                            <DropdownMenuItem>Rate</DropdownMenuItem>
+                            <DropdownMenuItem>HSN/SAC</DropdownMenuItem>
+                            <DropdownMenuItem>Last Modified Time</DropdownMenuItem>
+                            <DropdownMenuItem>Created Time</DropdownMenuItem>
+                          </DropdownMenuSubContent>
+                        </DropdownMenuSub>
+                        <DropdownMenuItem>
+                          <Import className="mr-2 h-4 w-4" />
+                          Import Items
+                        </DropdownMenuItem>
+                        <DropdownMenuSub>
+                          <DropdownMenuSubTrigger>
+                            <Download className="mr-2 h-4 w-4" />
+                            Export
+                          </DropdownMenuSubTrigger>
+                          <DropdownMenuSubContent>
+                            <DropdownMenuItem>Export as CSV</DropdownMenuItem>
+                            <DropdownMenuItem>Export as Excel</DropdownMenuItem>
+                          </DropdownMenuSubContent>
+                        </DropdownMenuSub>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem onClick={() => refetch()}>
+                          <RefreshCw className="mr-2 h-4 w-4" />
+                          Refresh List
+                        </DropdownMenuItem>
+                        <DropdownMenuItem>
+                          <Settings className="mr-2 h-4 w-4" />
+                          Preferences
+                        </DropdownMenuItem>
+                        <DropdownMenuItem>
+                          <RotateCcw className="mr-2 h-4 w-4" />
+                          Reset Column Width
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem>
+                          <FileText className="mr-2 h-4 w-4" />
+                          Update New GST Rates
+                        </DropdownMenuItem>
+                        <DropdownMenuItem>
+                          <CheckSquare className="mr-2 h-4 w-4" />
+                          Validate HSN/SAC
+                        </DropdownMenuItem>
+                        <DropdownMenuItem>
+                          <History className="mr-2 h-4 w-4" />
+                          HSN/SAC Update History
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
                   </div>
-                ) : (
-                  <>
-                    <Table>
-                      <TableHeader>
-                        <TableRow className="bg-slate-50/80 hover:bg-slate-50/80">
-                          <TableHead className="w-12">
-                            <Checkbox
-                              checked={selectedItems.length === items.length && items.length > 0}
-                              onCheckedChange={toggleSelectAll}
-                              data-testid="checkbox-select-all"
-                            />
-                          </TableHead>
-                          <TableHead className="font-medium text-slate-600">
-                            <div className="flex items-center gap-1">
-                              NAME
-                              <ArrowUpDown className="h-3 w-3" />
-                            </div>
-                          </TableHead>
-                          <TableHead className="font-medium text-slate-600">PURCHASE DESCRIPTION</TableHead>
-                          <TableHead className="font-medium text-slate-600">PURCHASE RATE</TableHead>
-                          <TableHead className="font-medium text-slate-600">DESCRIPTION</TableHead>
-                          <TableHead className="font-medium text-slate-600">RATE</TableHead>
-                          <TableHead className="font-medium text-slate-600">HSN/SAC</TableHead>
-                          <TableHead className="font-medium text-slate-600">USAGE UNIT</TableHead>
-                          <TableHead className="w-10"></TableHead>
-                        </TableRow>
-                      </TableHeader>
-                      <TableBody>
-                        {paginatedItems.map((item) => (
-                          <TableRow
-                            key={item.id}
-                            className={`hover:bg-slate-50/50 cursor-pointer ${!item.isActive ? 'opacity-50' : ''}`}
-                            onClick={() => handleItemClick(item)}
-                            data-testid={`row-item-${item.id}`}
-                          >
-                            <TableCell onClick={(e) => e.stopPropagation()}>
+                </div>
+
+                <div className="border border-slate-200 rounded-lg bg-white overflow-hidden">
+                  {isLoading ? (
+                    <div className="p-4 space-y-3">
+                      {[1, 2, 3, 4, 5].map((i) => (
+                        <div key={i} className="flex gap-4">
+                          <Skeleton className="h-4 w-4" />
+                          <Skeleton className="h-4 w-32" />
+                          <Skeleton className="h-4 w-48" />
+                          <Skeleton className="h-4 w-20" />
+                          <Skeleton className="h-4 w-48" />
+                          <Skeleton className="h-4 w-20" />
+                          <Skeleton className="h-4 w-24" />
+                          <Skeleton className="h-4 w-16" />
+                        </div>
+                      ))}
+                    </div>
+                  ) : items.length === 0 ? (
+                    <div className="p-12 text-center">
+                      <div className="text-slate-400 text-lg mb-2">No items found</div>
+                      <p className="text-slate-500 text-sm">
+                        {filterStatus === 'active'
+                          ? "No active items found. Try viewing all items."
+                          : filterStatus === 'inactive'
+                            ? "No inactive items found. Try viewing all items."
+                            : "Create your first item to get started."}
+                      </p>
+                      <Button
+                        onClick={() => setLocation("/products/new")}
+                        className="mt-4 bg-blue-600 hover:bg-blue-700"
+                        data-testid="button-create-first-item"
+                      >
+                        <Plus className="h-4 w-4 mr-2" /> Create Item
+                      </Button>
+                    </div>
+                  ) : (
+                    <>
+                      <Table>
+                        <TableHeader>
+                          <TableRow className="bg-slate-50/80 hover:bg-slate-50/80">
+                            <TableHead className="w-12">
                               <Checkbox
-                                checked={selectedItems.includes(item.id)}
-                                onCheckedChange={() => toggleSelectItem(item.id)}
-                                data-testid={`checkbox-item-${item.id}`}
+                                checked={selectedItems.length === items.length && items.length > 0}
+                                onCheckedChange={toggleSelectAll}
+                                data-testid="checkbox-select-all"
                               />
-                            </TableCell>
-                            <TableCell className="font-medium text-blue-600 hover:underline">
-                              {item.name}
-                              {!item.isActive && <span className="ml-2 text-xs text-slate-500">(Inactive)</span>}
-                            </TableCell>
-                            <TableCell className="text-slate-600">{item.purchaseDescription || '-'}</TableCell>
-                            <TableCell className="text-slate-600">{formatCurrency(item.purchaseRate)}</TableCell>
-                            <TableCell className="text-slate-600">{item.description || '-'}</TableCell>
-                            <TableCell className="text-slate-600">{formatCurrency(item.rate)}</TableCell>
-                            <TableCell className="text-slate-600">{item.hsnSac || '-'}</TableCell>
-                            <TableCell className="text-slate-600">{item.usageUnit || '-'}</TableCell>
-                            <TableCell onClick={(e) => e.stopPropagation()}>
-                              <DropdownMenu>
-                                <DropdownMenuTrigger asChild>
-                                  <Button variant="ghost" size="icon" className="h-8 w-8" data-testid={`button-item-menu-${item.id}`}>
-                                    <MoreHorizontal className="h-4 w-4" />
-                                  </Button>
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent align="end">
-                                  <DropdownMenuItem onClick={() => setLocation(`/products/${item.id}/edit`)}>
-                                    Edit
-                                  </DropdownMenuItem>
-                                  <DropdownMenuItem onClick={() => cloneItemMutation.mutate(item.id)}>
-                                    Clone Item
-                                  </DropdownMenuItem>
-                                  <DropdownMenuItem onClick={() => toggleStatusMutation.mutate({ id: item.id, isActive: !item.isActive })}>
-                                    {item.isActive ? 'Mark as Inactive' : 'Mark as Active'}
-                                  </DropdownMenuItem>
-                                  <DropdownMenuSeparator />
-                                  <DropdownMenuItem
-                                    className="text-red-600"
-                                    onClick={() => deleteItemMutation.mutate(item.id)}
-                                  >
-                                    Delete
-                                  </DropdownMenuItem>
-                                </DropdownMenuContent>
-                              </DropdownMenu>
-                            </TableCell>
+                            </TableHead>
+                            <TableHead className="font-medium text-slate-600">
+                              <div className="flex items-center gap-1">
+                                NAME
+                                <ArrowUpDown className="h-3 w-3" />
+                              </div>
+                            </TableHead>
+                            <TableHead className="font-medium text-slate-600">PURCHASE DESCRIPTION</TableHead>
+                            <TableHead className="font-medium text-slate-600">PURCHASE RATE</TableHead>
+                            <TableHead className="font-medium text-slate-600">DESCRIPTION</TableHead>
+                            <TableHead className="font-medium text-slate-600">RATE</TableHead>
+                            <TableHead className="font-medium text-slate-600">HSN/SAC</TableHead>
+                            <TableHead className="font-medium text-slate-600">USAGE UNIT</TableHead>
+                            <TableHead className="w-10"></TableHead>
                           </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
-                    <TablePagination
-                      currentPage={currentPage}
-                      totalPages={totalPages}
-                      totalItems={totalItems}
-                      itemsPerPage={itemsPerPage}
-                      onPageChange={goToPage}
-                    />
-                  </>
-                )}
+                        </TableHeader>
+                        <TableBody>
+                          {paginatedItems.map((item) => (
+                            <TableRow
+                              key={item.id}
+                              className={`hover:bg-slate-50/50 cursor-pointer ${!item.isActive ? 'opacity-50' : ''}`}
+                              onClick={() => handleItemClick(item)}
+                              data-testid={`row-item-${item.id}`}
+                            >
+                              <TableCell onClick={(e) => e.stopPropagation()}>
+                                <Checkbox
+                                  checked={selectedItems.includes(item.id)}
+                                  onCheckedChange={() => toggleSelectItem(item.id)}
+                                  data-testid={`checkbox-item-${item.id}`}
+                                />
+                              </TableCell>
+                              <TableCell className="font-medium text-blue-600 hover:underline">
+                                {item.name}
+                                {!item.isActive && <span className="ml-2 text-xs text-slate-500">(Inactive)</span>}
+                              </TableCell>
+                              <TableCell className="text-slate-600">{item.purchaseDescription || '-'}</TableCell>
+                              <TableCell className="text-slate-600">{formatCurrency(item.purchaseRate)}</TableCell>
+                              <TableCell className="text-slate-600">{item.description || '-'}</TableCell>
+                              <TableCell className="text-slate-600">{formatCurrency(item.rate)}</TableCell>
+                              <TableCell className="text-slate-600">{item.hsnSac || '-'}</TableCell>
+                              <TableCell className="text-slate-600">{item.usageUnit || '-'}</TableCell>
+                              <TableCell onClick={(e) => e.stopPropagation()}>
+                                <DropdownMenu>
+                                  <DropdownMenuTrigger asChild>
+                                    <Button variant="ghost" size="icon" className="h-8 w-8" data-testid={`button-item-menu-${item.id}`}>
+                                      <MoreHorizontal className="h-4 w-4" />
+                                    </Button>
+                                  </DropdownMenuTrigger>
+                                  <DropdownMenuContent align="end">
+                                    <DropdownMenuItem onClick={() => setLocation(`/products/${item.id}/edit`)}>
+                                      Edit
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem onClick={() => cloneItemMutation.mutate(item.id)}>
+                                      Clone Item
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem onClick={() => toggleStatusMutation.mutate({ id: item.id, isActive: !item.isActive })}>
+                                      {item.isActive ? 'Mark as Inactive' : 'Mark as Active'}
+                                    </DropdownMenuItem>
+                                    <DropdownMenuSeparator />
+                                    <DropdownMenuItem
+                                      className="text-red-600"
+                                      onClick={() => deleteItemMutation.mutate(item.id)}
+                                    >
+                                      Delete
+                                    </DropdownMenuItem>
+                                  </DropdownMenuContent>
+                                </DropdownMenu>
+                              </TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                    </>
+                  )}
+                </div>
               </div>
+              {items.length > 0 && (
+                <div className="flex-none border-t border-slate-200 bg-white">
+                  <TablePagination
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    totalItems={totalItems}
+                    itemsPerPage={itemsPerPage}
+                    onPageChange={goToPage}
+                  />
+                </div>
+              )}
+
             </div>
           </div>
         </ResizablePanel>

@@ -2,7 +2,7 @@
   "summary": {
     "totalReceivables": {
       "totalUnpaid": 245780.50,
-      "current": 185000.00,
+      "current": 185001.00,
       "overdue": 60780.50
     },
     "totalPayables": {
@@ -10,9 +10,9 @@
       "current": 98500.00,
       "overdue": 27150.00
     },
-    "cashOnHand": 450000.00,
-    "bankBalance": 1250000.00,
-    "totalIncome": 850000.00,
+    "cashOnHand": 450010.00,
+    "bankBalance": 1250010.00,
+    "totalIncome": 850010.00,
     "totalExpenses": 725535.00
   },
   "cashFlow": [
@@ -24,9 +24,9 @@
     },
     {
       "month": "May 2025",
-      "value": 145000,
-      "incoming": 195000,
-      "outgoing": 50000
+      "value": 145001,
+      "incoming": 195001,
+      "outgoing": 50010
     },
     {
       "month": "Jun 2025",
@@ -36,15 +36,15 @@
     },
     {
       "month": "Jul 2025",
-      "value": 165000,
+      "value": 165001,
       "incoming": 210000,
-      "outgoing": 45000
+      "outgoing": 45001
     },
     {
       "month": "Aug 2025",
-      "value": 195000,
-      "incoming": 250000,
-      "outgoing": 55000
+      "value": 195001,
+      "incoming": 250010,
+      "outgoing": 55001
     },
     {
       "month": "Sep 2025",
@@ -54,21 +54,21 @@
     },
     {
       "month": "Oct 2025",
-      "value": 245000,
+      "value": 245001,
       "incoming": 310000,
-      "outgoing": 65000
+      "outgoing": 65001
     },
     {
       "month": "Nov 2025",
-      "value": 275000,
-      "incoming": 350000,
-      "outgoing": 75000
+      "value": 275001,
+      "incoming": 350010,
+      "outgoing": 75001
     },
     {
       "month": "Dec 2025",
       "value": 310000,
-      "incoming": 395000,
-      "outgoing": 85000
+      "incoming": 395001,
+      "outgoing": 85001
     },
     {
       "month": "Jan 2026",
@@ -84,7 +84,7 @@
     },
     {
       "month": "Mar 2026",
-      "value": 350000,
+      "value": 350010,
       "incoming": 430000,
       "outgoing": 80000
     }
@@ -92,8 +92,8 @@
   "incomeExpense": [
     {
       "month": "Apr 2025",
-      "income": 85000,
-      "expense": 45000
+      "income": 85001,
+      "expense": 45001
     },
     {
       "month": "May 2025",
@@ -107,7 +107,7 @@
     },
     {
       "month": "Jul 2025",
-      "income": 105000,
+      "income": 105001,
       "expense": 62000
     },
     {
@@ -117,27 +117,27 @@
     },
     {
       "month": "Sep 2025",
-      "income": 125000,
+      "income": 125001,
       "expense": 68000
     },
     {
       "month": "Oct 2025",
       "income": 140000,
-      "expense": 85000
+      "expense": 85001
     },
     {
       "month": "Nov 2025",
-      "income": 155000,
+      "income": 155001,
       "expense": 92000
     },
     {
       "month": "Dec 2025",
       "income": 180000,
-      "expense": 105000
+      "expense": 105001
     },
     {
       "month": "Jan 2026",
-      "income": 145000,
+      "income": 145001,
       "expense": 78000
     },
     {
@@ -147,14 +147,14 @@
     },
     {
       "month": "Mar 2026",
-      "income": 175000,
-      "expense": 95000
+      "income": 175001,
+      "expense": 95001
     }
   ],
   "topExpenses": [
     {
       "category": "Salaries and Employee Wages",
-      "amount": 450000,
+      "amount": 450010,
       "percentage": 45
     },
     {
@@ -164,17 +164,17 @@
     },
     {
       "category": "IT and Internet Expenses",
-      "amount": 85000,
+      "amount": 85001,
       "percentage": 8.5
     },
     {
       "category": "Travel Expense",
-      "amount": 65000,
+      "amount": 65001,
       "percentage": 6.5
     },
     {
       "category": "Office Supplies",
-      "amount": 45000,
+      "amount": 45001,
       "percentage": 4.5
     },
     {
@@ -198,7 +198,7 @@
       "id": "1",
       "type": "invoice",
       "description": "Invoice #INV-001 for Uraja Foods",
-      "amount": 45000,
+      "amount": 45001,
       "date": "2025-12-10"
     },
     {
@@ -212,7 +212,7 @@
       "id": "3",
       "type": "payment",
       "description": "Payment received from Ashtvinayak Education",
-      "amount": 75000,
+      "amount": 75001,
       "date": "2025-12-09"
     },
     {
@@ -226,7 +226,7 @@
       "id": "5",
       "type": "invoice",
       "description": "Invoice #INV-002 for TechCorp Solutions",
-      "amount": 125000,
+      "amount": 125001,
       "date": "2025-12-07"
     }
   ],
@@ -236,7 +236,7 @@
       "name": "Website Redesign",
       "client": "Uraja Foods",
       "progress": 75,
-      "budget": 150000,
+      "budget": 150010,
       "spent": 112500
     },
     {
@@ -252,7 +252,7 @@
       "name": "Brand Identity",
       "client": "Ashtvinayak Education",
       "progress": 90,
-      "budget": 85000,
+      "budget": 85001,
       "spent": 76500
     }
   ],
@@ -260,7 +260,7 @@
     {
       "id": "1",
       "name": "HDFC Business Account",
-      "balance": 850000,
+      "balance": 850010,
       "type": "savings"
     },
     {
@@ -272,7 +272,7 @@
     {
       "id": "3",
       "name": "Petty Cash",
-      "balance": 25000,
+      "balance": 25001,
       "type": "cash"
     }
   ],
@@ -281,7 +281,7 @@
       "id": "1",
       "invoiceNumber": "INV-2025-001",
       "customer": "Nilraj Bhilare",
-      "amount": 35000,
+      "amount": 35001,
       "dueDate": "2025-11-25",
       "daysOverdue": 15
     },
@@ -304,7 +304,7 @@
     {
       "id": "2",
       "name": "Cash and Bank",
-      "balance": 1275000,
+      "balance": 1275001,
       "change": 8.2
     },
     {

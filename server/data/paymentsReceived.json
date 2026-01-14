@@ -221,8 +221,8 @@
           "invoiceId": "1766473984410",
           "invoiceNumber": "INV-00031",
           "invoiceDate": "2025-12-23",
-          "invoiceAmount": 495000,
-          "amountDue": 475000,
+          "invoiceAmount": 495001,
+          "amountDue": 475001,
           "paymentAmount": 20000
         }
       ],
@@ -257,7 +257,7 @@
           "invoiceId": "1766473984410",
           "invoiceNumber": "INV-00031",
           "invoiceDate": "2025-12-23",
-          "invoiceAmount": 495000,
+          "invoiceAmount": 495001,
           "refundAmount": 1000
         }
       ],
@@ -287,7 +287,7 @@
       "customerId": "13",
       "customerName": "Mr. Amit Verma",
       "customerEmail": "finance@technovaglobal.com",
-      "amount": 50000,
+      "amount": 50010,
       "bankCharges": 0,
       "tax": "",
       "date": "2025-12-23",
@@ -307,9 +307,9 @@
           "invoiceId": "1766473984410",
           "invoiceNumber": "INV-00031",
           "invoiceDate": "2025-12-23",
-          "invoiceAmount": 495000,
+          "invoiceAmount": 495001,
           "balanceDue": 476000,
-          "paymentAmount": 50000,
+          "paymentAmount": 50010,
           "paymentReceivedDate": "2025-12-23"
         }
       ],
@@ -317,13 +317,13 @@
       "journalEntries": [
         {
           "account": "Petty Cash",
-          "debit": 50000,
+          "debit": 50010,
           "credit": 0
         },
         {
           "account": "Unearned Revenue",
           "debit": 0,
-          "credit": 50000
+          "credit": 50010
         }
       ],
       "amountInWords": "Indian Rupee Fifty Thousand Only",
